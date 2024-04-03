@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spelling Game for Kids</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/x-icon" href="Images/favicon_io/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#yourColorHere">
+    <meta name="description" content="Engage and educate with our Spelling Game! Designed for kids to learn new words and improve their spelling skills through fun and interactive challenges. Perfect for young learners eager to enhance their literacy in a playful environment.">
+</head>
+<body>
+    <div class="sky-background">
+        <div class="clouds"></div>
+        <div class="balloons">
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+        </div>
+    </div>
+    <div class="game-area">
+        <header>
+            <h1>Welcome to the Spelling Adventure!</h1>
+        </header>
+        <div id="wordInputContainer">
+            <textarea id="wordInput" placeholder="Enter words separated by spaces..."></textarea>
+            <button class="btn" onclick="initializeGame()">Let's Start!</button>
+        </div>
+        <div class="container" id="gameContainer" style="display: none;">
+            <div id="mixedLetters"></div>
+            <div id="letterBoxes"></div>
+            <div id="animationContainer">
+                <div id="celebration" style="display:none;"></div>
+                <div id="motivation" style="display:none;"></div>
+            </div>
+            <div id="result"></div>
+            <div class="buttonContainer">
+                <button class="btn" onclick="checkSpelling()" id="checkBtn">Check</button>
+                <!-- Hear Hint Button Added Here -->
+                <button class="btn" id="hearHintBtn" onclick="speakWord(currentWord)" style="display: none;">Hear Hint</button>
+                <button class="btn" id="tryAgainBtn" onclick="resetCurrentWord()" style="display: none;">Try Again</button>
+                <button class="btn" id="nextWordBtn" onclick="setNewWord()" style="display: none;">Next Word</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>Happy Spelling! © 2024 Spelling Adventure Land</p>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js').then((registration) => {
+              console.log('SW registered: ', registration);
+            }).catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+          });
+        }
+      </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Comic Sans MS', 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the content vertically */
+    align-items: center;
+    background: #a2d2ff; /* Light blue background */
+}
+
+.game-area, .container, #wordInputContainer {
+    max-width: 600px;
+    width: 90%;
+    margin: 20px auto; /* Center align the game area */
+    padding: 20px;
+    border-radius: 15px; /* Rounded corners for a softer look */
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header h1 {
+    color: #34568B; /* Darker blue for contrast */
+    margin-bottom: 20px;
+    font-size: 2.2em;
+}
+
+#wordInput {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 20px; /* More rounded edges */
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+    resize: none; /* Prevent resizing */
+    height: 150px; /* Increased height to accommodate more words comfortably */
+}
+
+.btn {
+    background-color: #ffafcc; /* Soft pink */
+    color: white; /* White text for better readability */
+    cursor: pointer;
+    margin: 10px 5px; /* Ensure buttons don't touch */
+    border: none;
+    border-radius: 20px; /* More rounded edges */
+    padding: 12px;
+    font-size: 1.2em;
+}
+
+.btn:hover {
+    background-color: #f76a8c; /* A darker shade on hover */
+}
+
+#mixedLetters span, #letterBoxes span {
+    display: inline-flex; /* Use inline-flex to center content */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    width: 50px; /* Specify a width */
+    height: 50px; /* Specify a height */
+    margin: 5px; /* Add some space around each box */
+    background-color: #f0f0f0; /* Light background for the letters */
+    border: 2px solid #333; /* Visible border */
+    border-radius: 10px; /* Rounded corners */
+    cursor: grab; /* Cursor to indicate dragging */
+    user-select: none; /* Prevent text selection */
+}
+
+.drop {
+    border: 2px dashed #333; /* Dashed border for empty drop targets */
+    background-color: transparent; /* No background by default */
+}
+
+.drop.over {
+    background-color: #e0e0e0; /* Light background to indicate active drop target */
+}
+
+#celebration, #motivation {
+    display: block; /* Change to block to ensure they are visible when displayed */
+    width: 100px; /* Adjust width as needed */
+    height: 100px; /* Adjust height as needed */
+    margin: 10px auto; /* Center horizontally */
+    background-size: contain; /* Ensure the image fits within the element */
+    background-repeat: no-repeat; /* Prevent image repetition */
+}
+
+.footer {
+    width: 100%;
+    background-color: #FFB6C1; /* Consistent with button hover color */
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+}
+
+@media screen and (max-width: 599px) {
+    .btn, #wordInput {
+        width: 100%; /* Full-width buttons and input on smaller screens */
+    }
+
+    #mixedLetters span, #letterBoxes span {
+        width: 40px; /* Adjust for smaller screens */
+        height: 40px; /* Adjust for smaller screens */
+    }
+}
