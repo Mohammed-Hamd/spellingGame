@@ -11,7 +11,7 @@ body, html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: transparent; /* Set to transparent to remove the blue background */
+    background: #a2d2ff;
     overflow-x: hidden; /* Hide horizontal overflow caused by video background */
 }
 
@@ -59,18 +59,18 @@ body, html {
 }
 
 .btn {
-    background-color: #ffcc5c; /* Restored original button color */
+    background-color: #ffcc5c;
     color: #333;
     cursor: pointer;
     margin: 5px;
-    padding: 10px; /* Restored original padding */
-    border-radius: 10px; /* Restored original border radius */
-    border: none; /* Ensures no border */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Restored original box shadow */
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn:hover {
-    background-color: #f0b400; /* Restored original hover color */
+    background-color: #f0b400;
 }
 
 .letter, .box {
