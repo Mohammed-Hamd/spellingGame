@@ -15,17 +15,7 @@ body, html {
     overflow-x: hidden; /* Hide horizontal overflow caused by video background */
 }
 
-.video-background {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%; 
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: -100; /* Place it behind other content */
-    background-size: cover;
-}
+
 
 .game-area, .container, #wordInputContainer {
     max-width: 600px;
