@@ -11,14 +11,9 @@
     <meta name="description" content="Engage and educate with our Spelling Game! Designed for kids to learn new words and improve their spelling skills through fun and interactive challenges. Perfect for young learners eager to enhance their literacy in a playful environment.">
 </head>
 <body>
-    <div class="sky-background">
-        <div class="clouds"></div>
-        <div class="balloons">
-            <div class="balloon"></div>
-            <div class="balloon"></div>
-            <div class="balloon"></div>
-        </div>
-    </div>
+    <video autoplay loop muted playsinline class="video-background">
+        <source src="Images/clouds.MP4" type="video/mp4">
+    </video>
     <div class="game-area">
         <header>
             <h1>Welcome to the Spelling Adventure!</h1>
@@ -47,6 +42,8 @@
     <footer>
         <p>Happy Spelling! © 2024 Spelling Adventure Land</p>
     </footer>
+    <audio id="correctSound" src="Images/clapping.wav"></audio>
+    <audio id="incorrectSound" src="Images/failed.wav"></audio>
     <script src="script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {

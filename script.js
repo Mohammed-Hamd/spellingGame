@@ -1,19 +1,18 @@
 let words = [];
 let currentWord = '';
-let currentLetterIndex = 0;
-let attemptFailed = false;
+let selectedLetterId = '';
 
 const successMessages = [
-    "Fantastic job!",
-    "You're doing great!",
+    "Great job!",
+    "Correct, You're doing great!",
     "Excellent work!",
-    "You got it right!",
+    "Correct, You got it right!",
     "Amazing! Keep it up!"
 ];
 
 const tryAgainMessages = [
     "Almost there, try again!",
-    "You can do it!",
+    "You can do it, try again!",
     "Keep going, you're getting there!",
     "Don't give up, you're learning!",
     "You're so close, try again!"
@@ -30,21 +29,45 @@ function shuffleArray(array) {
 function prepareDragAndDropElements(word) {
     let mixedLetters = shuffleArray(word.split(''));
     document.getElementById('mixedLetters').innerHTML = mixedLetters
-        .map((letter, index) => `<span draggable="true" class="drag" id="drag${index}" ondragstart="drag(event)">${letter}</span>`)
+        .map((letter, index) => `<span class="letter" id="drag${index}" onclick="selectLetter('${index}', '${letter}')" ontouchstart="selectLetter('${index}', '${letter}')">${letter}</span>`)
         .join('');
+
     document.getElementById('letterBoxes').innerHTML = new Array(word.length)
         .fill('')
-        .map((_, index) => `<span id="drop${index}" class="drop" ondragover="allowDrop(event)" ondrop="drop(event)"></span>`)
+        .map((_, index) => `<span id="drop${index}" class="box" onclick="placeLetter('${index}')" ontouchstart="placeLetter('${index}')"></span>`)
         .join('');
 }
+
+function selectLetter(id, letter) {
+    if (selectedLetterId !== '') {
+        document.getElementById(selectedLetterId).classList.remove('selected');
+    }
+    selectedLetterId = `drag${id}`;
+    document.getElementById(selectedLetterId).classList.add('selected');
+}
+
+function placeLetter(dropId) {
+    if (!selectedLetterId) return;
+
+    const draggedElement = document.getElementById(selectedLetterId);
+    const letter = draggedElement.textContent;
+    const dropTarget = document.getElementById(`drop${dropId}`);
+
+    // Check if the drop target box is empty before placing the letter
+    if (dropTarget.textContent === '') {
+        dropTarget.textContent = letter; // Place the letter in the new box
+        draggedElement.textContent = ''; // Clear the original box
+        draggedElement.classList.remove('selected'); // Remove selection highlight
+        selectedLetterId = ''; // Reset selectedLetterId
+    }
+}
+
 
 function setNewWord(retry = false) {
     if (!retry) {
         currentWord = words[Math.floor(Math.random() * words.length)];
     }
-
     prepareDragAndDropElements(currentWord);
-
     document.getElementById('nextWordBtn').style.display = 'none';
     document.getElementById('tryAgainBtn').style.display = 'none';
     document.getElementById('checkBtn').style.display = 'inline-block';
@@ -52,65 +75,35 @@ function setNewWord(retry = false) {
     document.getElementById('result').innerHTML = '';
     document.getElementById('celebration').style.display = 'none';
     document.getElementById('motivation').style.display = 'none';
-
-    currentLetterIndex = 0;
-    attemptFailed = false;
-}
-
-function allowDrop(ev) {
-    ev.preventDefault();
-}
-
-function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-}
-
-function drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    var dropTarget = ev.target;
-
-    if (dropTarget.classList.contains('drop') && !dropTarget.textContent && parseInt(dropTarget.id.replace('drop', '')) === currentLetterIndex) {
-        dropTarget.appendChild(document.getElementById(data));
-        dropTarget.classList.add('filled');
-        currentLetterIndex++;
-    }
 }
 
 function checkSpelling() {
     const userAnswer = Array.from(document.getElementById('letterBoxes').children)
                             .map(child => child.textContent.trim())
                             .join('');
+    const isCorrect = userAnswer === currentWord;
+    document.getElementById('result').textContent = isCorrect ? successMessages[Math.floor(Math.random() * successMessages.length)] : tryAgainMessages[Math.floor(Math.random() * tryAgainMessages.length)];
+    document.getElementById('celebration').style.display = isCorrect ? 'block' : 'none';
+    document.getElementById('motivation').style.display = isCorrect ? 'none' : 'block';
+    document.getElementById('nextWordBtn').style.display = isCorrect ? 'inline-block' : 'none';
+    document.getElementById('tryAgainBtn').style.display = isCorrect ? 'none' : 'inline-block';
+    playSound(isCorrect);
+}
 
-    if (userAnswer === currentWord) {
-        document.getElementById('result').textContent = successMessages[Math.floor(Math.random() * successMessages.length)];
-        document.getElementById('celebration').style.display = 'block';
-        document.getElementById('nextWordBtn').style.display = 'inline-block';
-    } else {
-        document.getElementById('result').textContent = tryAgainMessages[Math.floor(Math.random() * tryAgainMessages.length)];
-        document.getElementById('motivation').style.display = 'block';
-        document.getElementById('tryAgainBtn').style.display = 'inline-block';
-    }
-
-    document.getElementById('hearHintBtn').style.display = 'none';
+function playSound(isCorrect) {
+    const sound = isCorrect ? document.getElementById('correctSound') : document.getElementById('incorrectSound');
+    sound.play();
 }
 
 function resetCurrentWord() {
-    prepareDragAndDropElements(currentWord);
-    document.getElementById('result').textContent = '';
-    document.getElementById('celebration').style.display = 'none';
-    document.getElementById('motivation').style.display = 'none';
-    document.getElementById('checkBtn').style.display = 'inline-block';
-    document.getElementById('hearHintBtn').style.display = 'inline-block';
-    document.getElementById('tryAgainBtn').style.display = 'none';
-    currentLetterIndex = 0;
+    setNewWord(true); // Resetting with the same word
 }
 
 function initializeGame() {
     const userInput = document.getElementById('wordInput').value.trim();
-    words = userInput ? userInput.split(/\s+/).filter(word => word.length > 0) : [];
+    words = userInput.split(/\s+/).filter(word => word.length > 0);
     if (words.length === 0) {
-        alert('Choose your words to start the game.');
+        alert('Please enter some words to start the game.');
         return;
     }
     document.getElementById('wordInputContainer').style.display = 'none';
@@ -122,3 +115,6 @@ function speakWord(word) {
     const utterance = new SpeechSynthesisUtterance(word);
     window.speechSynthesis.speak(utterance);
 }
+
+// Remove automatic invocation to avoid alert on page load
+// document.addEventListener('DOMContentLoaded', initializeGame);
